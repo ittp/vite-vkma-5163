@@ -1,13 +1,20 @@
 {
+  "compileOnSave": true,
+  
   "compilerOptions": {
     "target": "ESNext",
+    "baseUrl": ".",
+    "allowUnusedLabels": true,
+    "allowUmdGlobalAccess": true,
+    "allowImportingTsExtensions": true,
+
     "useDefineForClassFields": true,
     "lib": [
       "DOM",
       "DOM.Iterable",
       "ESNext"
     ],
-    "allowJs": false,
+    "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
@@ -20,6 +27,7 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
+  
   "include": [
     "src"
   ],

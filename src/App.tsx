@@ -1,12 +1,87 @@
-import { Icon12Add, Icon12ChevronUp, Icon12Delete, Icon12MessageHeart, Icon12PaymentCardOutline, Icon12Play, Icon12Services } from "@vkontakte/icons";
+import { Icon12Add, Icon12ArrowDownLeft, Icon12ArrowUpRight, Icon12Articles, Icon12Cake, Icon12Chevron, Icon12ClockOutline, Icon12Delete, Icon12Flash, Icon12Services, Icon12Tag, Icon28AddOutline, Icon28ArrowLeftOutline, Icon28CakeOutline, Icon28ComputerOutline, Icon28CubeBoxOutline, Icon28DevicesOutline, Icon28Game, Icon28KeyOutline, Icon28MagnetOutline, Icon28UserBackgroundOutline } from "@vkontakte/icons";
+import { runTapticImpactOccurred } from '@vkontakte/vk-bridge-react';
 import {
-    AppRoot, Button, Cell, FormField, FormLayout, FormLayoutGroup, Group, Header, Panel,
-    PanelHeader, Search, SplitCol, SplitLayout, View
+    AppRoot, Avatar, Button, Cell, Chip, Counter, FormLayout, FormLayoutGroup, Group, Header, HorizontalCell, List, Panel,
+    PanelHeader, PanelHeaderBack, Paragraph, PullToRefresh, Search, Spacing, SplitCol, SplitLayout, Tabbar, TabbarItem, View
 } from "@vkontakte/vkui";
+import { useCallback, useState } from "react";
+
+import { AddressView, use } from "./Addresses";
+import axios from "axios";
+
+const Users = () => {
+  const [location, setLocation] = useState({  
+    "key": "VZ-002",
+    "address": "проспект Ветеранов, 36к2",
+    "description": "Краткое описание или дополнения",
+    "worktime": "09:00 - 22:00"
+})
 
 
-import { useState } from "react";
 
+let locationIcons = {
+  key: <Icon12Articles />,
+  address: <Icon12Flash />,
+  description: <Icon12Articles />,
+  worktime: <Icon12ClockOutline />
+}
+
+
+  const [users, setUsers] = useState([
+    { id: 1, name: "Оборудование", icon: <Icon28CubeBoxOutline />, network: '172.10.0.1/28' },
+    { id: 2, name: 'Интернет', icon: <Icon28DevicesOutline />, services: {  type: "network", value: '1.1.1.1/32', state: 1   } },
+  ]);
+
+  const [fetching, setFetching] = useState(false);
+
+  const onRefresh = useCallback(() => {
+
+
+    setFetching(true);
+    // Вызываем виброотклик
+    // > Note: в VKUI v5 необходимо возвращать результат выполнения, чтобы
+    // > чтобы избежать двойного вызова runTapticImpactOccurred()
+    return runTapticImpactOccurred('light');
+  }, []);
+
+  return (
+    <View activePanel="users" >
+      <Panel id="users">
+        <PanelHeader>Устройства</PanelHeader>
+       
+
+        <PullToRefresh onRefresh={onRefresh} isFetching={fetching}>
+
+
+        <AddressView />
+
+
+          <Group mode="plain" mode="card" header={<Header mode="primary">Просмотр</Header>}>
+            {Object.entries(location).map((i,k) => <Cell disabled before={locationIcons[i[0]]} key={k}> <Paragraph>{i[1]}</Paragraph></Cell>
+          )}
+</Group>      
+<div style={{padding: 20}} />
+          <Group mode="card">
+            <List>
+              {users.map(({ id, name, icon }, i) => {
+                return (
+                  <Cell key={i} expandable before={icon} after={<Chip before={<Icon12Chevron />} after={<Icon12ArrowUpRight fill={"green"} />} removable={false} ><div>172.10.0.1/82</div></Chip>}>{name}</Cell>
+          
+                );
+              })}
+            </List>
+
+
+         <Tabbar mode='horizontal'>
+
+          <TabbarItem indicator={<Counter size="s" mode="prominent" />} ><Icon28AddOutline fill="white" /></TabbarItem>
+                </Tabbar>
+          </Group>
+        </PullToRefresh>
+      </Panel>
+    </View>
+  );
+};
 
 
 async function getData() {
@@ -25,6 +100,7 @@ export default function App (config:any) {
 
  let options =  [{label: "VZ", value: "11"}, { label: "KS", value: "12" } ]
  const [activePanel, setActivePanel] = useState("main")
+
 //  let selectFilter = (key:any) => {
 //   let filtered = []
 //  }
@@ -42,47 +118,29 @@ export default function App (config:any) {
 //  }
   let { title } = config 
   return (
-    <AppRoot>
-      <SplitLayout header={<PanelHeader separator={false} title={1} />}>
-        <SplitCol autoSpaced>
-          <View activePanel={activePanel}>
-            <Panel id="main">
-              <PanelHeader  separator={true}  before={<Button mode='outline' form="test"  size='s' after={''} >App</Button>}>
-                
-                
-                <FormLayout itemRef="1">
-                  
-                <FormLayoutGroup mode="horizontal">
-                 
-                    <Search inputMode="search" inlist={[{ key: 1, value: 1}]} />
-          
-            </FormLayoutGroup>
-            </FormLayout>
-                </PanelHeader>
-
-          <Group header={<Header mode="secondary">App</Header>}>
-
-  
-    <Cell expandable before={<Icon12Add />} onClick={() => setActivePanel('main')}>
-      Добавить
-    </Cell>
-    <Cell expandable before={<Icon12Delete />} onClick={() => setActivePanel('main')}>
-      Удалить
-    </Cell>
-    <Cell expandable before={<Icon12Services />} onClick={() => setActivePanel('main')}>
-      Параметры
-    </Cell>
-  </Group>
-              </Panel>
-          
-          </View>
-        </SplitCol>
-      </SplitLayout>
+    <AppRoot mode={'full'}>
+     
+      <Users />
+    
     </AppRoot>
   );
 }
 
 
+
+
+// <SplitLayout header={<PanelHeader separator={true} before={<Button>A</Button>} />} >
+//         <SplitCol autoSpaced>
+//           <View activePanel={activePanel}>
+   
+      
+//             </View>
+//        </SplitCol>
+//       <SplitCol>A</SplitCol>
+//        <SplitCol>
+//         <p>Content</p>
+//         </SplitCol>
+//       </SplitLayout>
 // {/* <View activePanel={activePanel}> */}
 // <Panel id="panel1">
 //   <PanelHeader>More</PanelHeader>
