@@ -21,14 +21,14 @@ export async function makeRequest(address:string) {
     }
   })
   try {
-    let { data } = await api.get('/', { params })
+    // let { data } = await api.get('/', { params })
     // console.log(data)
 
-    let fm = data.response.GeoObjectCollection.featureMember
-    let { name, description } = fm[0].GeoObject
+    // let fm = data.response.GeoObjectCollection.featureMember
+    // let { name, description } = fm[0].GeoObject
     // console.log(name)
 
-    locations.push({name, description})
+    // locations.push({name, description})
     
     // const response = await axios.request(config);
     // console.log(JSON.stringify(response.data));
