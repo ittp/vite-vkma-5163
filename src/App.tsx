@@ -56,7 +56,7 @@ let locationIcons = {
         <AddressView />
 
 
-          <Group mode="plain" mode="card" header={<Header mode="primary">Просмотр</Header>}>
+          <Group mode="card" header={<Header mode="primary">Просмотр</Header>}>
             {Object.entries(location).map((i,k) => <Cell disabled before={locationIcons[i[0]]} key={k}> <Paragraph>{i[1]}</Paragraph></Cell>
           )}
 </Group>      

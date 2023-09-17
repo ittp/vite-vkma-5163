@@ -4,9 +4,9 @@
   "compilerOptions": {
     "target": "ESNext",
     "baseUrl": ".",
-    "allowUnusedLabels": true,
-    "allowUmdGlobalAccess": true,
-    "allowImportingTsExtensions": true,
+
+ 
+
 
     "useDefineForClassFields": true,
     "lib": [

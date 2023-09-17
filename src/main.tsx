@@ -43,8 +43,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ConfigProvider  isWebView>
       <AdaptivityProvider>
-    
-        <App title={"Support"} />
+            <App title={"Support"} />
       </AdaptivityProvider>
     </ConfigProvider>
   </React.StrictMode>
